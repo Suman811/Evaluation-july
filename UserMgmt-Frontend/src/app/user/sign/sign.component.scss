@@ -1,0 +1,54 @@
+// .password-toggle-icon {
+//     cursor: pointer;
+// }
+
+// .password-toggle-icon .fa-eye {
+//     display: inline-block;
+// }
+
+// .password-toggle-icon .fa-eye.fa-eye-slash {
+//     display: none;
+// }
+
+// .password-toggle-icon .fa-eye-slash {
+//     display: inline-block;
+// }
+
+// .password-toggle-icon .fa-eye-slash.fa-eye {
+//     display: none;
+// }
+
+.pass{
+
+    display:flex;
+    justify-content: right;
+    align-items: center;
+
+}
+
+.front-img {
+    background-image: url("../../../assets/images/login.png");
+    height: 70%;
+    width: 90%;
+    scale: 0.7;
+    background-repeat: no-repeat;
+    position: absolute;
+    top:25%;
+
+
+}
+
+
+.back-img {
+    background-image: url("../../../assets/images/background.png");
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    position: relative;
+    //top:21%;
+}
+
+
+// .a{
+//     width:1500px;
+// }

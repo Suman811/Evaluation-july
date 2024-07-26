@@ -1,0 +1,40 @@
+.front-img {
+    background-image: url("../../../assets/images/login.png");
+    height: 70%;
+    width: 90%;
+    scale: 0.7;
+    background-repeat: no-repeat;
+    position: absolute;
+    top:25%;
+
+
+}
+
+
+.back-img {
+    background-image: url("../../../assets/images/background.png");
+    height: 100vh;
+    width: 100%;
+    background-repeat: no-repeat;
+    position: relative;
+    //top:21%;
+}
+.kindly_check_main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .kindly_check {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        gap: 10px;
+        width: 80%;
+     img {
+        width: 250px;
+        margin: 0 auto;
+    }
+    
+    }
+}
+
