@@ -9,32 +9,33 @@ namespace UserManagement.Service.CommonService
 {
     public static class EncryptionDecryptionHandler
     {
-        private static readonly byte[] _key = Encoding.UTF8.GetBytes("your_secret_key_here_and_suman_is_pagal");
+        private static readonly byte[] _key = Encoding.UTF8.GetBytes("this_is_the_secrrsy_usjg");
+        
 
         public static string Encryption(string data)
         {
-            //using (var aes = Aes.Create())
-            //{
-            //    aes.Key = _key;
-            //    aes.IV = new byte[16]; // Initialize to zero
-
-            //    var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-            //    using (var ms = new System.IO.MemoryStream())
-            //    using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
-            //    using (var sw = new System.IO.StreamWriter(cs))
-            //    {
-            //        sw.Write(data);
-            //        sw.Close();
-            //        return Convert.ToBase64String(ms.ToArray());
-            //    }
-            //}
-            if (data == null)
+            using (var aes = Aes.Create())
             {
-                return null;
+                aes.Key = _key;
+                aes.IV = new byte[16]; // Initialize to zero
+
+                var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+                using (var ms = new System.IO.MemoryStream())
+                using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+                using (var sw = new System.IO.StreamWriter(cs))
+                {
+                    sw.Write(data);
+                    sw.Close();
+                    return Convert.ToBase64String(ms.ToArray());
+                }
             }
-            byte[] tostoredata = ASCIIEncoding.ASCII.GetBytes(data);
-            string encrypteddata = Convert.ToBase64String(tostoredata);
-            return encrypteddata;
+            //if (data == null)
+            //{
+            //    return null;
+            //}
+            //byte[] tostoredata = ASCIIEncoding.ASCII.GetBytes(data);
+            //string encrypteddata = Convert.ToBase64String(tostoredata);
+            //return encrypteddata;
         }
 
         public static string Decryption(string encryptedText)

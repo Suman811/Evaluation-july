@@ -1,5 +1,5 @@
 
-<mat-sidenav-container style="height: 100vh">
+<!-- <mat-sidenav-container style="height: 100vh">
     <mat-sidenav #sidenav mode="side" style="width: 250px;; background-color: rgb(3, 128, 230);" >
       <div class="navbar-nav">
         <h1><u>Integrity solution</u></h1>
@@ -20,4 +20,130 @@
       </button>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
-  </mat-sidenav-container>
+  </mat-sidenav-container> -->
+
+
+  <section class="main">
+    <div class="sidebar-wrapper">
+      <app-sidebar />
+    </div>
+  
+    <div class="main-content">
+      <app-header [active]="0" />
+  
+      <div class="main-wrapper">
+        <div class="user-wrapper">
+          <div class="active-user active-bg">
+            <div class="active-img">
+              <img
+                src="../../../assets/images/active-users.png"
+                alt="active-user-icon"
+              />
+            </div>
+  
+            <div class="active-content">
+              <span>Active</span>
+              <p>20</p>
+            </div>
+          </div>
+  
+          <div class="active-user inactive-bg">
+            <div class="active-img">
+              <img
+                src="../../../assets/images/inactive-users.png"
+                alt="active-user-icon"
+              />
+            </div>
+  
+            <div class="active-content">
+              <span>Inactive</span>
+              <p>20</p>
+            </div>
+          </div>
+        </div>
+  
+        <div class="user-list-wrapper">
+          <div class="user-heading-wrapper">
+            <p>User List</p>
+          </div>
+  
+          <div class="user-list-table-wrapper">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="shift">First Name</th>
+                    <th>Middle Name</th>
+                    <th>Last Name</th>
+                    <th>DOB</th>
+                    <th>Email</th>
+                    <th>Contact No</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="shift">Suman</td>
+                    <td>deep</td>
+                    <td>Kaur</td>
+                    <td>11-09-2002</td>
+                    <td>sumandeepkaur811@gmail.com</td>
+                    <td>9464331941</td>
+                    <td>Chandigarh</td>
+                    <td>Punjab</td>
+                    <td>
+                      <img src="../../../assets/images/eye.png" alt="eye-icon">
+                    </td>
+                  </tr>
+                  <!-- <tr>
+                    <td class="shift">Suman</td>
+                    <td>deep</td>
+                    <td>Kaur</td>
+                    <td>11-09-2002</td>
+                    <td>sumandeepkaur811@gmail.com</td>
+                    <td>9464331941</td>
+                    <td>Chandigarh</td>
+                    <td>Punjab</td>
+                    <td>
+                      <img src="../../../assets/images/eye.png" alt="eye-icon">
+                    </td>
+                  </tr> -->
+                  <!-- <tr>
+                    <td class="shift">Suman</td>
+                    <td>deep</td>
+                    <td>Kaur</td>
+                    <td>11-09-2002</td>
+                    <td>sumandeepkaur811@gmail.com</td>
+                    <td>9464331941</td>
+                    <td>Chandigarh</td>
+                    <td>Punjab</td>
+                    <td>
+                      <img src="../../../assets/images/eye.png" alt="eye-icon">
+                    </td>
+                  </tr> -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+  
+          <div class="pagination">
+            <nav>
+              <ul>
+                  <li class="prev control" >Prev</li>
+                  <li class="page active-page">1</li>
+                  <li class="page">2</li>
+                  <li class="page">3</li>
+                  <li>...</li>
+                  <li class="page">10</li>
+                  <li class="next control">Next</li>
+              </ul>
+            </nav>
+          </div>
+  
+  
+        </div>
+      </div>
+    </div>
+  </section>
