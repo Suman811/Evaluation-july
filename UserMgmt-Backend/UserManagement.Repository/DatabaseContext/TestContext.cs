@@ -65,7 +65,7 @@ public partial class TestContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.DeletedDate).HasColumnType("datetime");
-            entity.Property(e => e.Dob).HasColumnName("DOB");
+            entity.Property(e => e.DateOfBirth).HasColumnName("DOB");
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.Gender)
                 .HasMaxLength(10)

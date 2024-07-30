@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -16,4 +16,19 @@ export class HeaderComponent {
   ngOnInit(): void {
     this.activeHeader = this.activeHeaderList[this.active]
   }
+
+
+  // @Output() toggleSidebarForMe: EventEmitter<any> = new EventEmitter();
+
+  // toggleSidebar() {
+  //   this.toggleSidebarForMe.emit();
+  // }
+  
+  // logOut() {
+  
+  // }
 }
+function Output(): (target: HeaderComponent, propertyKey: "toggleSidebarForMe") => void {
+  throw new Error('Function not implemented.');
+}
+

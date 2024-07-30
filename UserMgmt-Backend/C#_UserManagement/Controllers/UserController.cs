@@ -34,7 +34,7 @@ namespace UserManagement.Controllers
             }
         }
         [HttpPost("AddUser")]
-        public async Task<string> AddUser(UserDTO user)
+        public async Task<string> AddUser([FromForm]UserDTO user)
         {
             var result = await _userService.AddUser(user);
             return result;
@@ -49,8 +49,8 @@ namespace UserManagement.Controllers
         [HttpDelete("DeleteUser")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            await _userService.DeleteUser(id);
-                return Ok();    
+           var result = await _userService.DeleteUser(id);
+            return Ok(result);
         }
         [HttpPost("ValidateUser")]
         public async Task<IActionResult> Validate([FromBody] LoginDTO login)
@@ -77,5 +77,6 @@ namespace UserManagement.Controllers
         {
             return _emailService.SendEmail(email);
         }
+       
     }
 }

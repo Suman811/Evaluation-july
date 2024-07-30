@@ -124,28 +124,150 @@ ALTER TABLE S_ADDRESS
 ADD DEFAULT 'admin' FOR DELETEDBY;
 
 
-create or alter procedure createuser_usp
- @FirstName,
- @MiddleName,
- @LastName,
- @Gender,
- @DateOfJoining,
- @DOB,
- @Email,
- @Password,
- @Phone,
- @AlternatePhone,
- @ImagePath,
- @Address,
- @City,
- @State,
- @Country,
- @ZipCode,
+--create or alter procedure createuser_usp
+-- @FirstName,
+-- @MiddleName,
+-- @LastName,
+-- @Gender,
+-- @DateOfJoining,
+-- @DOB,
+-- @Email,
+-- @Password,
+-- @Phone,
+-- @AlternatePhone,
+-- @ImagePath,
+-- @Address,
+-- @City,
+-- @State,
+-- @Country,
+-- @ZipCode,
 
- alter table S_Address drop column addresstypeId
+ alter table S_Address drop column addresstypeId;
 
- SELECT * FROM S_USER;
+ CREATE OR ALTER PROCEDURE createuser_usp1
+    @FirstName nvarchar(50),
+    @MiddleName nvarchar(50),
+    @LastName nvarchar(50),
+    @Gender varchar(10),
+    @DateOfJoining date,
+    @DOB date,
+    @Email nvarchar(max),
+    @Password nvarchar(max),
+    @Phone nvarchar(max),
+    @AlternatePhone nvarchar(max),
+    @ImagePath varchar(255),
+	@IsActive bit , 
+    @Address varchar(100),
+    @City varchar(50),
+    @State varchar(50),
+    @Country varchar(50),
+    @ZipCode varchar(10)
+AS
+BEGIN
+    DECLARE @UserId int;
+    DECLARE @AddressId int;
+
+    BEGIN TRANSACTION;
+
+    BEGIN TRY
+        -- Insert into S_USER table
+        INSERT INTO S_USER (FirstName, MiddleName, LastName, Gender, DateOfJoining, DOB, Email, [Password], Phone, AlternatePhone, ImagePath,IsActive)
+        VALUES (@FirstName, @MiddleName, @LastName, @Gender, @DateOfJoining, @DOB, @Email, @Password, @Phone, @AlternatePhone, @ImagePath,@IsActive);
+
+        SET @UserId = SCOPE_IDENTITY();
+
+        -- Insert into S_ADDRESS table
+        INSERT INTO S_ADDRESS ([Address], City, [State], Country, ZipCode, UserId)
+        VALUES (@Address, @City, @State, @Country, @ZipCode, @UserId);  -- Assuming AddressTypeId is 1 for user's primary address
+
+        SET @AddressId = SCOPE_IDENTITY();
+
+        COMMIT TRANSACTION;
+
+        SELECT @UserId AS UserId, @AddressId AS AddressId;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage nvarchar(4000);
+        SET @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH;
+END;
+
+
+
+SELECT * FROM S_USER;
 SELECT * FROM S_ADDRESS;
 
 
-drop table S_User
+--drop table S_User
+EXEC createuser_usp1
+    @FirstName = 'ankit',
+    @MiddleName = 'Doe',
+    @LastName = 'baskandi',
+    @Gender = 'Male',
+    @DateOfJoining = '2022-01-01',
+    @DOB = '1990-01-01',
+    @Email = 'john.smith@example.com',
+    @Password = 'password123',
+    @Phone = '123-456-7890',
+    @AlternatePhone = '098-765-4321',
+    @ImagePath = '/path/to/image.jpg',
+	@IsActive='true',
+    @Address = '123 Main St',
+    @City = 'Anytown',
+    @State = 'CA',
+    @Country = 'USA',
+    @ZipCode = '12345';
+
+
+
+	CREATE OR ALTER PROCEDURE deleteUser_usp
+    @UserId int
+AS
+BEGIN
+    DECLARE @DeletedBy int = 1;
+    DECLARE @DeletedDate datetime = GETDATE();
+
+    BEGIN TRANSACTION;
+
+    BEGIN TRY
+       
+        UPDATE S_USER
+        SET IsDeleted = 1, DeletedBy = @DeletedBy, DeletedDate = @DeletedDate
+        WHERE UserId = @UserId;
+
+        -- Delete the corresponding address(es) from S_ADDRESS table
+         UPDATE S_ADDRESS
+        SET IsDeleted = 1, DeletedBy = @DeletedBy, DeletedDate = @DeletedDate
+        WHERE UserId = @UserId;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage nvarchar(4000);
+        SET @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH;
+END;
+EXEC deleteUser_usp @UserId = 6;
+ALTER TABLE S_Address
+ADD IsDeleted bit DEFAULT 0 NOT NULL;
+
+SELECT * FROM S_USER;
+SELECT * FROM S_ADDRESS;
+
+ALTER TABLE S_USER
+DROP IsActive;
+
+--ALTER TABLE S_USER
+--DROP CONSTRAINT DF__S_USER__IsActive__22EAEC0F;
+
+--SELECT *
+--FROM sys.default_constraints
+--WHERE parent_object_id = OBJECT_ID('S_USER')
+--    AND parent_column_id = (SELECT column_id FROM sys.columns WHERE object_id = OBJECT_ID('S_USER') AND name = 'IsActive');
+	
+
+	SELECT * FROM sys.procedures WHERE name = 'createusersp1';

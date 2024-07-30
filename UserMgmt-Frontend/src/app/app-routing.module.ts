@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  {path:'user', loadChildren:()=>import('./user/user.module').then(m=>m.UserModule)},
+  {path:'', loadChildren:()=>import('./user/user.module').then(m=>m.UserModule)},
   {path:'shared', loadChildren:()=>import('./shared/shared.module').then(m=>m.SharedModule)}
 ];
 

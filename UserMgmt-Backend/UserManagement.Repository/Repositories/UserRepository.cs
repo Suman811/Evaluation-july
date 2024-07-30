@@ -13,6 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace UserManagement.Repository.UserRepository
 {
@@ -37,7 +39,7 @@ namespace UserManagement.Repository.UserRepository
                 {
                     await connection.OpenAsync();
 
-                    using (var command = new SqlCommand("dbo.CreateUser", connection))
+                    using (var command = new SqlCommand("dbo.createuser_usp1", connection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
 
@@ -48,7 +50,7 @@ namespace UserManagement.Repository.UserRepository
                         command.Parameters.AddWithValue("@LastName", user.LastName ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Gender", user.Gender ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@DateOfJoining", user.DateOfJoining);
-                        command.Parameters.AddWithValue("@DOB", user.Dob);
+                        command.Parameters.AddWithValue("@DOB", user.DateOfBirth);
                         command.Parameters.AddWithValue("@Email", user.Email ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Password", user.Password ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Phone", user.Phone ?? (object)DBNull.Value);
@@ -71,27 +73,68 @@ namespace UserManagement.Repository.UserRepository
 
         }
 
-        public async Task<bool> DeleteUser(int id)
-        {
-            bool result = false;
-            var User = await _context.SUsers.FindAsync(id);
-            if (User != null) {
+        //public async Task<bool> DeleteUser(int id)
+        //{
+        //    bool result = false;
+        //    var User = await _context.SUsers.FindAsync(id);
+        //    if (User != null) {
 
-                _context.SUsers.Remove(User);
-                result = true; 
-            }
-            else
+        //        _context.SUsers.Remove(User);
+        //        result = true; 
+        //    }
+        //    else
+        //    {
+        //        result= false;
+        //    }
+        //    return result;
+        //}
+
+
+
+        //public async Task<bool> DeleteUser(int id)
+        //{
+        //    using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+        //    {
+        //        await connection.OpenAsync();
+        //        var command = connection.CreateCommand();
+        //        using (var command = new SqlCommand("dbo.deleteUser_usp",connection))
+        //        {
+        //            command.CommandType = CommandType.StoredProcedure;
+        //            command.Parameters.AddWithValue("@UserId", id);
+
+        //            await command.ExecuteNonQueryAsync();
+        //        }
+        //    }
+        //    return true;
+        //}
+        public async Task<string> DeleteUser(int id)
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
-                result= false;
+                await connection.OpenAsync();
+                var command = connection.CreateCommand();
+                using ( command = new SqlCommand("dbo.deleteUser_usp", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@UserId", id);
+
+                    await command.ExecuteNonQueryAsync();
+                }
             }
-            return result;
+            return "User Deleted Successfully";
         }
 
-        
 
         public async Task<List<SUser>> GetAllUsers()
         {
-            return await _context.SUsers.ToListAsync();
+           // using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+                return await _context.SUsers.ToListAsync();
+                //string query = "SELECT * FROM SUsers WHERE IsDeleted = 0";
+            //return await _context.SUsers()
+            //connection.Open();
+            //SqlCommand command = new SqlCommand(query, connection);
+            //var users = _context.SUsers.Where(u => u.IsDeleted == 0).ToListAsync();
         }
 
         public async Task<SUser> GetUserByID(int id)

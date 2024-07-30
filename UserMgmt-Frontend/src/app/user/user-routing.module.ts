@@ -7,12 +7,12 @@ import { UserlistComponent } from './userlist/userlist.component';
 import { AdduserComponent } from './adduser/adduser.component';
 
 const routes: Routes = [
- 
-  {path:'sign', component:SignComponent},
+  {path:'add', component:AdduserComponent},
+  {path:'', component:SignComponent},
   {path:'forgot', component:ForgotpasswordComponent},
   {path:'mail', component:MailsentComponent},
-  {path:'list', component:UserlistComponent},
-  {path:'add', component:AdduserComponent}
+  {path:'list', component:UserlistComponent}
+  
 ];
 
 @NgModule({

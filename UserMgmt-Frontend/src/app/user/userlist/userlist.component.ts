@@ -1,11 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import * as XLSX from'xlsx';
+import { CrudserviceService } from '../services/crudservice.service';
 
 @Component({
   selector: 'app-userlist',
   templateUrl: './userlist.component.html',
   styleUrls: ['./userlist.component.scss']
 })
-export class UserlistComponent {
+export class UserlistComponent implements OnInit {
+ 
+  ngOnInit(): void {
+  // this.getUserDetails();
+  }
+  constructor(private serve:CrudserviceService){}
+//   getUserDetails() {
+//     this.subscription=this.serve.getAllUser().subscribe(
+//       {
+//         next:(res:any)
+//         =>{
+//   if(res.statusCode===200){
+//     this.userDetails=res.data;
+//     let active = this.userDetails.filter((user:any)=>user.isActive);
+//     let inActive = this.userDetails.filter((user:any)=>!user.isActive);
+//     this.activeUser=active.length;
+//     this.inActiveUser=inActive.length;
+//   }
+// }      }
+//     )
+//   }
+
+
+  exportToExcel(){
+    let data=document.getElementById("tbldata");
+    //const ws = XLSX.= XLSX.utils.table_to_sheet(data);
+   // const wb= XLSX.WorkBook=XLSX.utils.book_new();
+    //XLSX.utils.book_append_sheet(wb,ws,'Sheet1');
+    //XLSX.writeFile(wb,this.filename)
+  }
   userData : any[] = ['d', 'ds', 'ds']
 
   //Used to track current page number
@@ -15,12 +46,11 @@ export class UserlistComponent {
   itemsPerPage: number = 5;
  
  
-  //Method used to give only 10 patient details as an array to populate table
-  //Method slice the organizationInfoData our json patient data based on startIndex
- //  paginatedPatientInfo(): any[] {
- //    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
- //    return this.organizationInfoData.slice(startIndex, startIndex + this.itemsPerPage);
- //  }
+  userDetails:any;
+  activeUser:number=0;
+  inActiveUser:number=0;
+  subscription:any;
+  filename="User_Details.xlsx";
  
   //Method used to update the current page when clicked
   onPageChange(pageNumber: number): void {

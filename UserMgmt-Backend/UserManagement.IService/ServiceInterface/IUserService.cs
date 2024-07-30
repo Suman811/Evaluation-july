@@ -12,7 +12,7 @@ namespace UserManagement.IService.ServiceInterface
     {
         Task<string> AddUser(UserDTO user);
         Task<SUser> UpdateUser(SUser user);
-        Task<bool> DeleteUser(int id);
+        Task<string> DeleteUser(int id);
         Task<SUser> GetUserByID(int id);
         Task<List<SUser>> GetAllUsers();
         Task<bool> Validate(LoginDTO login);

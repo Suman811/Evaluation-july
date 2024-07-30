@@ -15,6 +15,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule} from '@angular/material/menu';
 import { SharedModule } from '../shared/shared.module';
+import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,14 @@ import { SharedModule } from '../shared/shared.module';
     MatListModule,
     MatMenuModule,
     SharedModule,
-    
+    ToastrModule,
+    HttpClientModule,
+    MatDividerModule,
+    MatListModule,
+    MatIconModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatSidenavModule,
   ]
 })
 export class UserModule { }

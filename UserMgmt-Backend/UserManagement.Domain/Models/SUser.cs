@@ -17,7 +17,7 @@ public partial class SUser
 
     public DateTime DateOfJoining { get; set; }
 
-    public DateTime Dob { get; set; }
+    public DateTime DateOfBirth { get; set; }
 
     public string Email { get; set; } = null!;
 

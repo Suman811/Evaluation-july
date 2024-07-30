@@ -36,17 +36,17 @@ namespace UserManagement.Service.Services
                 sUser.Email = EncryptionDecryptionHandler.Encryption(user.Email);
                 sUser.Gender = user.Gender;
                 sUser.DateOfJoining = user.DateOfJoining;
-                sUser.Dob  = user.Dob;
+                sUser.DateOfBirth  = user.DateOfBirth;
                 sUser.Phone = EncryptionDecryptionHandler.Encryption(user.Phone);
                 sUser.AlternatePhone = EncryptionDecryptionHandler.Encryption(user.AlternatePhone);
-                sUser.Password = passwordHashing.HashedPassword(user.Password);
+               //sUser.Password = passwordHashing.HashedPassword(user.Password);
                 sUser.ImagePath = user.ImagePath;
-                sUser.CreatedBy=user.LoginUserId;
-                address.Address = user.Address;
-                address.City = user.City;   
-                address.Country = user.Country; 
-                address.State = user.State; 
-                address.ZipCode = user.ZipCode;
+                //sUser.CreatedBy=user.LoginUserId;
+               // address.Address = user.Address;
+               // address.City = user.City;   
+               // address.Country = user.Country; 
+               // address.State = user.State; 
+               // address.ZipCode = user.ZipCode;
                 
 
                 return _repository.AddUser(sUser, address);
@@ -55,7 +55,7 @@ namespace UserManagement.Service.Services
            
         }
 
-        public Task<bool> DeleteUser(int id)
+        public Task<string> DeleteUser(int id)
         {
            return _repository.DeleteUser(id);
         }
