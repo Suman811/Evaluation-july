@@ -10,32 +10,32 @@ import { CrudserviceService } from '../services/crudservice.service';
 export class UserlistComponent implements OnInit {
  
   ngOnInit(): void {
-  // this.getUserDetails();
+  this.getUserDetails();
   }
   constructor(private serve:CrudserviceService){}
-//   getUserDetails() {
-//     this.subscription=this.serve.getAllUser().subscribe(
-//       {
-//         next:(res:any)
-//         =>{
-//   if(res.statusCode===200){
-//     this.userDetails=res.data;
-//     let active = this.userDetails.filter((user:any)=>user.isActive);
-//     let inActive = this.userDetails.filter((user:any)=>!user.isActive);
-//     this.activeUser=active.length;
-//     this.inActiveUser=inActive.length;
-//   }
-// }      }
-//     )
-//   }
+  getUserDetails() {
+    this.subscription=this.serve.getAllUsers().subscribe(
+      {
+        next:(res:any)=>
+          {
+  if(res.statusCode === 200){
+    this.userDetails = res.data;
+    let active = this.userDetails.filter((user:any)=>user.isActive);
+    let inActive = this.userDetails.filter((user:any)=>!user.isActive);
+    this.activeUser=active.length;
+    this.inActiveUser=inActive.length;
+  }
+}      }
+    );
+  }
 
 
   exportToExcel(){
     let data=document.getElementById("tbldata");
-    //const ws = XLSX.= XLSX.utils.table_to_sheet(data);
-   // const wb= XLSX.WorkBook=XLSX.utils.book_new();
-    //XLSX.utils.book_append_sheet(wb,ws,'Sheet1');
-    //XLSX.writeFile(wb,this.filename)
+    const ws : XLSX.WorkSheet= XLSX.utils.table_to_sheet(data);
+   const wb: XLSX.WorkBook=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,'Sheet1');
+    XLSX.writeFile(wb,this.filename)
   }
   userData : any[] = ['d', 'ds', 'ds']
 

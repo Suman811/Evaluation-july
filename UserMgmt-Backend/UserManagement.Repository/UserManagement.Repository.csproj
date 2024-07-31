@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UserManagement.IRepository\UserManagement.IRepository.csproj" />
+    <ProjectReference Include="..\UserManagement.Shared\UserManagement.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,6 +15,8 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using UserManagement.Service.CommonService;
+using UserManagement.Shared.CommonService;
 
 namespace UserManagement.Repository.UserRepository
 {
@@ -61,7 +63,7 @@ namespace UserManagement.Repository.UserRepository
                         command.Parameters.AddWithValue("@State", address.State ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@Country", address.Country ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ZipCode", address.ZipCode ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@LoginId", user.CreatedBy ?? (object)DBNull.Value);
+                    /*    command.Parameters.AddWithValue("@LoginId", user.CreatedBy ?? (object)DBNull.Value);*/
 
                         await command.ExecuteScalarAsync();
                     }
@@ -128,13 +130,46 @@ namespace UserManagement.Repository.UserRepository
 
         public async Task<List<SUser>> GetAllUsers()
         {
-           // using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
-                return await _context.SUsers.ToListAsync();
+
+            //return await _context.SUsers.ToListAsync();
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                //await connection.OpenAsync();
+                //var command = connection.CreateCommand();
+               // SqlCommand command = new SqlCommand(query, connection);
+               // using (command = new SqlCommand("SELECT * FROM S_USER u INNER JOIN S_ADDRESS a ON u.UserId = a.UserId", connection)) ;
                 //string query = "SELECT * FROM SUsers WHERE IsDeleted = 0";
-            //return await _context.SUsers()
-            //connection.Open();
-            //SqlCommand command = new SqlCommand(query, connection);
-            //var users = _context.SUsers.Where(u => u.IsDeleted == 0).ToListAsync();
+                //return await _context.SUsers()
+                //connection.Open();
+                //SqlCommand command = new SqlCommand(query, connection);
+                //var users = _context.SUsers.Where(u => u.IsDeleted == 0).ToListAsync();
+                var collection = _context.SUsers.Include(o => o.SAddresses).Select(o => new SUser
+                {
+                    UserId = o.UserId,
+                    FirstName = o.FirstName,
+                    MiddleName = o.MiddleName,
+                    LastName = o.LastName,
+                    Email =EncryptionDecryptionHandler.Decryption(o.Email),
+                    Gender = o.Gender,
+                    Phone = EncryptionDecryptionHandler.Decryption(o.Phone),
+                    AlternatePhone = EncryptionDecryptionHandler.Decryption(o.AlternatePhone),
+                    DateOfJoining = o.DateOfJoining,
+                    DateOfBirth = o.DateOfBirth,
+                    IsActive = o.IsActive,
+                    ImagePath = o.ImagePath,
+                   
+                    SAddresses = o.SAddresses.Select(a => new SAddress
+                    {
+                        AddressId = a.AddressId,
+                        Country = a.Country,
+                        State = a.State,
+                        City = a.City,
+                        ZipCode = a.ZipCode,
+                    }).ToList()
+                });
+                return await collection.ToListAsync();
+            }
+           
         }
 
         public async Task<SUser> GetUserByID(int id)

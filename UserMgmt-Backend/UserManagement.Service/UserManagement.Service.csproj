@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\UserManagement.IService\UserManagement.IService.csproj" />
     <ProjectReference Include="..\UserManagement.Repository\UserManagement.Repository.csproj" />
+    <ProjectReference Include="..\UserManagement.Shared\UserManagement.Shared.csproj" />
   </ItemGroup>
 
 </Project>

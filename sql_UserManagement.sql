@@ -41,7 +41,7 @@ CREATE TABLE S_ADDRESS(
     REFERENCES S_USER (UserId)
 	);
 
-
+	alte
 
 	INSERT INTO S_USER
 	(
@@ -102,7 +102,7 @@ ALTER TABLE S_USER ADD CONSTRAINT df_suSER_Createddate default getdate() for Cre
 --ALTER  TABLE S_USER
 --ADD ImagePath varchar(255);
 ALTER TABLE S_USER 
-ADD DEFAULT 'admin' FOR CREATEDBY;
+ADD DEFAULT 1 FOR CREATEDBY;
 ALTER TABLE S_USER 
 ADD DEFAULT 'admin' FOR MODIFIEDBY;
 ALTER TABLE S_USER 
@@ -117,7 +117,7 @@ ALTER TABLE S_ADDRESS ADD CONSTRAINT df_saddress_Deleteddate default getdate() f
 
 
 ALTER TABLE S_ADDRESS 
-ADD DEFAULT 'admin' FOR CREATEDBY;
+ADD DEFAULT 1 FOR CREATEDBY;
 ALTER TABLE S_ADDRESS 
 ADD DEFAULT 'admin' FOR MODIFIEDBY;
 ALTER TABLE S_ADDRESS 
@@ -156,12 +156,12 @@ ADD DEFAULT 'admin' FOR DELETEDBY;
     @Phone nvarchar(max),
     @AlternatePhone nvarchar(max),
     @ImagePath varchar(255),
-	@IsActive bit , 
     @Address varchar(100),
     @City varchar(50),
     @State varchar(50),
     @Country varchar(50),
     @ZipCode varchar(10)
+	
 AS
 BEGIN
     DECLARE @UserId int;
@@ -171,8 +171,8 @@ BEGIN
 
     BEGIN TRY
         -- Insert into S_USER table
-        INSERT INTO S_USER (FirstName, MiddleName, LastName, Gender, DateOfJoining, DOB, Email, [Password], Phone, AlternatePhone, ImagePath,IsActive)
-        VALUES (@FirstName, @MiddleName, @LastName, @Gender, @DateOfJoining, @DOB, @Email, @Password, @Phone, @AlternatePhone, @ImagePath,@IsActive);
+        INSERT INTO S_USER (FirstName, MiddleName, LastName, Gender, DateOfJoining, DOB, Email, [Password], Phone, AlternatePhone, ImagePath)
+        VALUES (@FirstName, @MiddleName, @LastName, @Gender, @DateOfJoining, @DOB, @Email, @Password, @Phone, @AlternatePhone, @ImagePath);
 
         SET @UserId = SCOPE_IDENTITY();
 
@@ -213,7 +213,6 @@ EXEC createuser_usp1
     @Phone = '123-456-7890',
     @AlternatePhone = '098-765-4321',
     @ImagePath = '/path/to/image.jpg',
-	@IsActive='true',
     @Address = '123 Main St',
     @City = 'Anytown',
     @State = 'CA',
@@ -234,7 +233,7 @@ BEGIN
     BEGIN TRY
        
         UPDATE S_USER
-        SET IsDeleted = 1, DeletedBy = @DeletedBy, DeletedDate = @DeletedDate
+        SET IsDeleted = 1, DeletedBy = @DeletedBy, DeletedDate = @DeletedDate,isActive=0
         WHERE UserId = @UserId;
 
         -- Delete the corresponding address(es) from S_ADDRESS table
@@ -251,7 +250,7 @@ BEGIN
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH;
 END;
-EXEC deleteUser_usp @UserId = 6;
+EXEC deleteUser_usp @UserId = 4;
 ALTER TABLE S_Address
 ADD IsDeleted bit DEFAULT 0 NOT NULL;
 
@@ -271,3 +270,43 @@ DROP IsActive;
 	
 
 	SELECT * FROM sys.procedures WHERE name = 'createusersp1';
+
+
+SELECT *
+FROM S_USER u
+INNER JOIN S_ADDRESS a
+ON u.UserId = a.UserId;
+
+
+TRUNCATE TABLE S_USER;
+DELETE FROM S_USER;
+TRUNCATE TABLE S_ADDRESS;
+
+
+
+
+ALTER TABLE S_user
+ADD CONSTRAINT df_isActive
+DEFAULT 1 FOR isActive;
+SELECT 
+    OBJECT_NAME(OBJECT_ID) AS TableName,
+    name AS ConstraintName,
+    type_desc AS ConstraintType
+FROM 
+    sys.constraints
+ORDER BY 
+    TableName, ConstraintName;
+	
+
+	SELECT *
+FROM sys.default_constraints
+WHERE parent_object_id = OBJECT_ID('S_USER')
+   AND parent_column_id = (SELECT column_id FROM sys.columns WHERE object_id = OBJECT_ID('S_USER') AND name = 'DeletedBy');
+   ALTER TABLE S_USER
+DROP CONSTRAINT DF__S_USER__DeletedB__2CC95C04;
+SELECT *
+FROM sys.default_constraints
+WHERE parent_object_id = OBJECT_ID('S_ADDRESS')
+   AND parent_column_id = (SELECT column_id FROM sys.columns WHERE object_id = OBJECT_ID('S_ADDRESS') AND name = 'DeletedBy');
+   ALTER TABLE S_ADDRESS
+DROP CONSTRAINT DF__S_ADDRESS__Modif__33765993;

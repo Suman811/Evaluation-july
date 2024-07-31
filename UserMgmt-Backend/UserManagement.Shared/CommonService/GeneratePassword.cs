@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 
 
-namespace UserManagement.Service.CommonService
+namespace UserManagement.Shared.CommonService
 {
     public class GeneratePassword
     {

@@ -35,7 +35,12 @@ export class CrudserviceService {
 
 
   deleteUser(id : number) : Observable<any>{
-    return this.http.delete<any>('');
+    return this.http.delete<any>('https://localhost:7066/api/User/DeleteUser?id=');
   }
-
+  getAllUsers(): Observable<any> {
+    return this.http.get<any>('https://localhost:7066/api/User/GetAllUsers');
+  }
+  updateUser():Observable<any>{
+    return this.http.delete<any>('https://localhost:7066/api/User/UpdateUser');
+  }
 }

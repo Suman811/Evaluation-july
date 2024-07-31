@@ -26,26 +26,26 @@ namespace UserManagement.Domain.DTO
         public DateTime DateOfJoining { get; set; }
 
 
-        //public string Password { get; set; } = null!;
+        public string Password { get; set; } = null!;
 
         public string Phone { get; set; } = null!;
 
         public string? AlternatePhone { get; set; }
-       // public int LoginUserId { get; set; }
+        public int LoginUserId { get; set; }
 
         public string? ImagePath { get; set; }
 
-        //public string Address { get; set; } = null!;
+        public string Address { get; set; } = null!;
 
-        //public string City { get; set; } = null!;
+        public string City { get; set; } = null!;
 
-        //public string State { get; set; } = null!;
+        public string State { get; set; } = null!;
 
-        //public string Country { get; set; } = null!;
+        public string Country { get; set; } = null!;
 
-        //public string ZipCode { get; set; } = null!;
-        public virtual ICollection<SAddress> SAddresses { get; set; } = new List<SAddress>();
-        public bool IsActive { get; set; }
+        public string ZipCode { get; set; } = null!;
+        //public virtual ICollection<SAddress> SAddresses { get; set; } 
+      /*  public bool IsActive { get; set; }*/
 
 
     }

@@ -10,6 +10,7 @@ using UserManagement.Domain.Models;
 using UserManagement.IRepository.RepositoryInterface;
 using UserManagement.IService.ServiceInterface;
 using UserManagement.Service.CommonService;
+using UserManagement.Shared.CommonService;
 
 namespace UserManagement.Service.Services
 {
@@ -39,17 +40,17 @@ namespace UserManagement.Service.Services
                 sUser.DateOfBirth  = user.DateOfBirth;
                 sUser.Phone = EncryptionDecryptionHandler.Encryption(user.Phone);
                 sUser.AlternatePhone = EncryptionDecryptionHandler.Encryption(user.AlternatePhone);
-               //sUser.Password = passwordHashing.HashedPassword(user.Password);
+                sUser.Password = passwordHashing.HashedPassword(user.Password);
                 sUser.ImagePath = user.ImagePath;
-                //sUser.CreatedBy=user.LoginUserId;
-               // address.Address = user.Address;
-               // address.City = user.City;   
-               // address.Country = user.Country; 
-               // address.State = user.State; 
-               // address.ZipCode = user.ZipCode;
-                
+                sUser.CreatedBy = user.LoginUserId;
+                address.Address = user.Address;
+                address.City = user.City;
+                address.Country = user.Country;
+                address.State = user.State;
+                address.ZipCode = user.ZipCode;
 
-                return _repository.AddUser(sUser, address);
+
+            return _repository.AddUser(sUser, address);
 
             
            

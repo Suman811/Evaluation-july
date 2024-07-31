@@ -34,7 +34,7 @@ namespace UserManagement.Controllers
             }
         }
         [HttpPost("AddUser")]
-        public async Task<string> AddUser([FromForm]UserDTO user)
+        public async Task<string> AddUser([FromBody]UserDTO user)
         {
             var result = await _userService.AddUser(user);
             return result;
