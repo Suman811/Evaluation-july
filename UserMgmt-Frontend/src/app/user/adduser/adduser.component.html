@@ -34,7 +34,7 @@
                         <div class="imgInput-wrapper">
                             <span class="file-name">Upload User image here</span>
                             <label for="file-input" class="file-label">Choose a file</label>
-                            <input type="file" id="file-input" class="file-input" (change)="onFileChange($event)" />
+                            <input type="file" id="file-input"  class="file-input" (change)="onFileChange($event)" />
                         </div>
                     </div>
 
@@ -60,9 +60,9 @@
                                 <label for="lastName">Last Name</label>
                                 <input type="text" id="lastName" name="lastName" placeholder="Last Name" formControlName="lastName">
                                 <div *ngIf="getControl('lastName')?.errors && getControl('lastName')?.touched || getControl('lastName')?.dirty">
-                                    <small class="text-danger" *ngIf="getControl('lastName')?.errors?.['required']">First name is required.</small>
+                                    <small class="text-danger" *ngIf="getControl('lastName')?.errors?.['required']">Last name is required.</small>
                                     <!-- <small class="text-danger" *ngIf="getControl('phone')?.errors?.['minlength']">Phone must be at least 10 characters.</small> -->
-                                    <small class="text-danger" *ngIf="getControl('lastName')?.errors?.['maxlength']"> First name cannot be more than 10 characters.</small>
+                                    <small class="text-danger" *ngIf="getControl('lastName')?.errors?.['maxlength']"> Last name cannot be more than 10 characters.</small>
                                 </div>
                             </div>
                         </div>
@@ -124,11 +124,36 @@
                                     </div>
                             </div>
                         </div>
+                        <div class="row form-input-row">
+                        <div class="form-input col-md-4 col-12">
+                            <label for="country">Country</label>
+                            <input type="text" id="country" name="country" placeholder="Country" formControlName="country">
+                        </div>
+                        <div class="form-input col-md-4 col-12">
+                            <label for="state">State</label>
+                            <input type="text" id="state" name="state" placeholder="Enter State" formControlName="state">
+                        </div> 
+                        <div class="form-input col-md-4 col-12">
+                            <label for="city">City</label>
+                            <input type="text" id="city" name="city" placeholder="Enter City" formControlName="city">
+                        </div> 
+                        <div class="form-input col-md-4 col-12">
+                            <label for="zipcode">Zip Code</label>
+                            <input type="text" id="zipcode" name="zipcode" placeholder="ZipCode" formControlName="zipCode">
+                            <div *ngIf="getControl('zipCode')?.errors && getControl('zipCode')?.touched || getControl('zipCode')?.dirty">
+                                <small class="text-danger" *ngIf="getControl('zipCode')?.errors?.['required']">Zip
+                                    
+                                    Code is required.</small>
+                                
+                            </div>
+                        </div>
+                    </div>
 
-                        <div formArrayName="Addresses">
+                <!--  -->
+                        <!-- <div formArrayName="Addresses">
                             <div class="row form-input-row" *ngFor="let address of Addresses.controls; let i=index" [formGroupName]="i">
                                 
-                                <!-- <div class="form-input col-md-4 col-12">
+                                <div class="form-input col-md-4 col-12">
                                     <label for="country">Country</label>
                                     <input type="text" id="country" name="country" maxlength="50" minlength="1" placeholder="Country" formControlName="country">
                                     <div *ngIf="getControl('country')?.errors && getControl('country')?.touched || getControl('country')?.dirty">
@@ -136,7 +161,7 @@
                                         <small class="text-danger" *ngIf="getControl('country')?.errors?.['minlength']">Country must be at least 1 character.</small>
                                         <small class="text-danger" *ngIf="getControl('country')?.errors?.['maxlength']">Country cannot be more than 50 characters.</small>
                                     </div>
-                                </div> -->
+                                </div>
                                 <div class="col-4">
                                     <label class="form-label text-weight" [for]="'country'+i">Country<span
                                             class="required-field"></span></label>
@@ -152,14 +177,14 @@
                                             required</small>
                                     </div>
                                 </div>
-                                <!-- <div class="form-input col-md-4 col-12">
+                                <div class="form-input col-md-4 col-12">
                                     <label for="state">State</label>
                                     <input type="text" id="state" name="state" placeholder="State" formControlName="state">
                                     <div *ngIf="getControl('state')?.errors && getControl('state')?.touched || getControl('state')?.dirty">
                                         <small class="text-danger" *ngIf="getControl('state')?.errors?.['required']">State is required.</small>
                                         
                                     </div>
-                                </div> -->
+                                </div>
                                 <div class=" col-md-4">
                                     <label class="form-label text-weight" [for]="'state'+i">State<span
                                             class="required-field"></span></label>
@@ -194,14 +219,14 @@
 
                                 
 
-                                <!-- <div class="form-input col-md-4 col-12">
+                                <div class="form-input col-md-4 col-12">
                                     <label for="city">City</label>
                                     <input type="text" id="city" name="city" placeholder="City" formControlName="city">
                                     <div *ngIf="getControl('city')?.errors && getControl('city')?.touched || getControl('city')?.dirty">
                                         <small class="text-danger" *ngIf="getControl('city')?.errors?.['required']">City is required.</small>
                                         
                                     </div>
-                                </div> -->
+                                </div>
 
                                 <div class="form-input col-md-4 col-12">
                                     <label for="zipcode">Zip Code</label>
@@ -216,16 +241,16 @@
                             </div>
 
                             <div class="address-buttons-wrapper">
-                                <button type="button" class="btn1" (click)="addSecondaryAddress()" *ngIf="Addresses.length < 2">Add Secondary Address</button>
+                               <button type="button" class="btn1" (click)="addSecondaryAddress()" *ngIf="Addresses.length < 2">Add Secondary Address</button>
                                 <button type="button" class="btn2" (click)="removeSecondaryAddress()" *ngIf="Addresses.length === 2">Remove Secondary Address</button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
-                    <div class="isactive-checkbox-wrapper">
+                    <!-- <div class="isactive-checkbox-wrapper">
                         <input type="checkbox" formControlName="isActive" name="isActive" id="isActive">
                         <label for="isActive">IsActive</label>
-                    </div>
+                    </div> -->
 
 
                     <div class="submit-btn-wrapper">

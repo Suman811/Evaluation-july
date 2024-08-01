@@ -80,49 +80,31 @@
                     <th>Contact No</th>
                     <th>City</th>
                     <th>State</th>
+                    <th>Country</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="shift">Suman</td>
-                    <td>deep</td>
-                    <td>Kaur</td>
-                    <td>11-09-2002</td>
-                    <td>sumandeepkaur811@gmail.com</td>
-                    <td>9464331941</td>
-                    <td>Chandigarh</td>
-                    <td>Punjab</td>
+                  <tr *ngFor="let a of userDetails">
+                    <td>{{a.firstName}}</td>
+                    <td>{{a.middleName}}</td>
+                    <td>{{a.lastName}}</td> 
+                    <td>{{a.dateOfBirth}}</td>
+                    <td>{{a.email}}</td>
+                    <td>{{a.phone}}</td>
+                    <ng-container >
+                      <td>{{a.sAddresses[0].city}}</td>
+                      <td>{{a.sAddresses[0].state}}</td>
+                      <td>{{a.sAddresses[0].country}}</td>
+                  </ng-container>
+                    <!-- <td>{{a.city}}</td>
+                    <td>{{a.state}}</td>
+                    <td>{{a.country}}</td> -->
                     <td>
-                      <img src="../../../assets/images/eye.png" alt="eye-icon">
+                      <i class="fas fa-edit" (click)="editItem()"></i>
+                      <i class="fas fa-trash-alt" (click)="deleteItem()"></i>
                     </td>
                   </tr>
-                  <!-- <tr>
-                    <td class="shift">Suman</td>
-                    <td>deep</td>
-                    <td>Kaur</td>
-                    <td>11-09-2002</td>
-                    <td>sumandeepkaur811@gmail.com</td>
-                    <td>9464331941</td>
-                    <td>Chandigarh</td>
-                    <td>Punjab</td>
-                    <td>
-                      <img src="../../../assets/images/eye.png" alt="eye-icon">
-                    </td>
-                  </tr> -->
-                  <!-- <tr>
-                    <td class="shift">Suman</td>
-                    <td>deep</td>
-                    <td>Kaur</td>
-                    <td>11-09-2002</td>
-                    <td>sumandeepkaur811@gmail.com</td>
-                    <td>9464331941</td>
-                    <td>Chandigarh</td>
-                    <td>Punjab</td>
-                    <td>
-                      <img src="../../../assets/images/eye.png" alt="eye-icon">
-                    </td>
-                  </tr> -->
                 </tbody>
               </table>
             </div>

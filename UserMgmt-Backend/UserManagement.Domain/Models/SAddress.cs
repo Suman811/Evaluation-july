@@ -17,19 +17,19 @@ public partial class SAddress
 
     public string ZipCode { get; set; } = null!;
 
-    public int UserId { get; set; }
+    public int? UserId { get; set; }
 
-    public int? CreatedBy { get; set; }
+    //public int? CreatedBy { get; set; }
 
-    public DateTime? CreatedDate { get; set; }
+   // public DateTime? CreatedDate { get; set; }
 
-    public int? ModifiedBy { get; set; }
+   // public int? ModifiedBy { get; set; }
 
-    public DateTime? ModifiedDate { get; set; }
+   // public DateTime? ModifiedDate { get; set; }
 
-    public int? DeletedBy { get; set; }
+   // public int? DeletedBy { get; set; }
 
-    public DateTime? DeletedDate { get; set; }
+   // public DateTime? DeletedDate { get; set; }
 
     public virtual SUser User { get; set; } = null!;
 }

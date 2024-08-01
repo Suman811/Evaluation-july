@@ -39,9 +39,9 @@ public partial class TestContext : DbContext
             entity.Property(e => e.Country)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.DeletedDate).HasColumnType("datetime");
-            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            //entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+          //  entity.Property(e => e.DeletedDate).HasColumnType("datetime");
+           // entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.State)
                 .HasMaxLength(50)
                 .IsUnicode(false);

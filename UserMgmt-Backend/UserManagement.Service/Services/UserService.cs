@@ -26,6 +26,7 @@ namespace UserManagement.Service.Services
         }
         public Task<string> AddUser(UserDTO user)
         {
+            var pass = GeneratePassword.GenerateUniquePassword();
             PasswordHashing passwordHashing = new PasswordHashing();
             
                 SUser sUser = new SUser();
@@ -40,9 +41,10 @@ namespace UserManagement.Service.Services
                 sUser.DateOfBirth  = user.DateOfBirth;
                 sUser.Phone = EncryptionDecryptionHandler.Encryption(user.Phone);
                 sUser.AlternatePhone = EncryptionDecryptionHandler.Encryption(user.AlternatePhone);
-                sUser.Password = passwordHashing.HashedPassword(user.Password);
+             sUser.Password = passwordHashing.HashedPassword(pass);
+           
                 sUser.ImagePath = user.ImagePath;
-                sUser.CreatedBy = user.LoginUserId;
+               // sUser.CreatedBy = user.LoginUserId;
                 address.Address = user.Address;
                 address.City = user.City;
                 address.Country = user.Country;

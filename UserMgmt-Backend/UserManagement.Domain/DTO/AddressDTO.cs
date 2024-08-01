@@ -16,7 +16,7 @@ namespace UserManagement.Domain.DTO
 
         public string ZipCode { get; set; } = null!;
 
-
+        public int? UserId { get; set; }
 
     }
 }

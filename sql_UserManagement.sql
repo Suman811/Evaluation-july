@@ -236,10 +236,10 @@ BEGIN
         SET IsDeleted = 1, DeletedBy = @DeletedBy, DeletedDate = @DeletedDate,isActive=0
         WHERE UserId = @UserId;
 
-        -- Delete the corresponding address(es) from S_ADDRESS table
-         UPDATE S_ADDRESS
-        SET IsDeleted = 1, DeletedBy = @DeletedBy, DeletedDate = @DeletedDate
-        WHERE UserId = @UserId;
+     
+        -- UPDATE S_ADDRESS
+        --SET IsDeleted = 1, DeletedBy = @DeletedBy, DeletedDate = @DeletedDate
+        --WHERE UserId = @UserId;
 
         COMMIT TRANSACTION;
     END TRY
@@ -282,7 +282,9 @@ TRUNCATE TABLE S_USER;
 DELETE FROM S_USER;
 TRUNCATE TABLE S_ADDRESS;
 
-
+--ALTER TABLE S_user
+--ADD CONSTRAINT df_createdby
+--DEFAULT 1 FOR CreatedBy;
 
 
 ALTER TABLE S_user
@@ -309,4 +311,17 @@ FROM sys.default_constraints
 WHERE parent_object_id = OBJECT_ID('S_ADDRESS')
    AND parent_column_id = (SELECT column_id FROM sys.columns WHERE object_id = OBJECT_ID('S_ADDRESS') AND name = 'DeletedBy');
    ALTER TABLE S_ADDRESS
-DROP CONSTRAINT DF__S_ADDRESS__Modif__33765993;
+DROP CONSTRAINT df_saddress_Deleteddate;
+
+alter table S_ADDRESS
+DROP column CreatedBy;
+alter table S_ADDRESS
+DROP column ModifiedBy;
+alter table S_ADDRESS
+DROP column deletedBy;
+alter table S_ADDRESS
+DROP column CreatedDate;
+alter table S_ADDRESS
+DROP column ModifiedDate;
+alter table S_ADDRESS
+DROP column DeletedDate;

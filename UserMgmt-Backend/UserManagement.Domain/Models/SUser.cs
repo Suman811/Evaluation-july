@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 
 namespace UserManagement.Domain.Models;
 
 public partial class SUser
 {
-    public int UserId { get; set; }
+    public int? UserId { get; set; }
 
     public string FirstName { get; set; } = null!;
 

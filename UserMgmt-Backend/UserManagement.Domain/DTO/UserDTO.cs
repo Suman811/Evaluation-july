@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,12 +27,12 @@ namespace UserManagement.Domain.DTO
         public DateTime DateOfJoining { get; set; }
 
 
-        public string Password { get; set; } = null!;
+       // public string Password { get; set; } = null!;
 
         public string Phone { get; set; } = null!;
 
         public string? AlternatePhone { get; set; }
-        public int LoginUserId { get; set; }
+        //public int LoginUserId { get; set; }
 
         public string? ImagePath { get; set; }
 
