@@ -250,7 +250,7 @@ BEGIN
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH;
 END;
-EXEC deleteUser_usp @UserId = 4;
+EXEC deleteUser_usp @UserId = 27;
 ALTER TABLE S_Address
 ADD IsDeleted bit DEFAULT 0 NOT NULL;
 
@@ -325,3 +325,4 @@ alter table S_ADDRESS
 DROP column ModifiedDate;
 alter table S_ADDRESS
 DROP column DeletedDate;
+delete from s_user where UserId=27;

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { CrudserviceService } from '../services/crudservice.service';
 
 @Component({
   selector: 'app-sign',
@@ -8,11 +9,11 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 })
 export class SignComponent {
 
-  constructor(private fb:FormBuilder){}
+  constructor(private fb:FormBuilder,private serve:CrudserviceService){}
 
   loginform =this.fb.group({
     email: ['', [Validators.email, Validators.required]],
-    password: ['', [Validators.required, Validators.pattern(('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}'))]]
+    password: ['', Validators.required]
   })
 
   showPassword = false;
@@ -26,7 +27,11 @@ export class SignComponent {
    saveForm(){
     if(this.loginform.valid){
     console.log(this.loginform.value);
-    
+    this.serve.validate(this.loginform.value).subscribe({
+      next:(data)=>{
+        console.log(data);
+      }
+    })
     }
     else{
     console.log("Invalid credentials");

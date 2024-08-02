@@ -18,7 +18,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [
     SignComponent,
@@ -46,6 +46,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatMenuModule,
     MatToolbarModule,
     MatSidenavModule,
+    NgxPaginationModule
   ]
 })
 export class UserModule { }

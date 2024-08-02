@@ -41,7 +41,8 @@ namespace UserManagement.Service.Services
                 sUser.DateOfBirth  = user.DateOfBirth;
                 sUser.Phone = EncryptionDecryptionHandler.Encryption(user.Phone);
                 sUser.AlternatePhone = EncryptionDecryptionHandler.Encryption(user.AlternatePhone);
-             sUser.Password = passwordHashing.HashedPassword(pass);
+            // sUser.Password = passwordHashing.HashedPassword(pass);
+            sUser.Password=EncryptionDecryptionHandler.Encryption(GeneratePassword.GenerateUniquePassword());
            
                 sUser.ImagePath = user.ImagePath;
                // sUser.CreatedBy = user.LoginUserId;
@@ -68,14 +69,20 @@ namespace UserManagement.Service.Services
             return await _repository.GetAllUsers();
         }
 
-        public Task<SUser> GetUserByID(int id)
-        {
-            return _repository.GetUserByID(id); 
-        }
+        //public Task<SUser> GetUserByID(int id)
+        //{
+        //    return _repository.GetUserByID(id); 
+        //}
 
-        public Task<SUser> UpdateUser(SUser user)
+        public Task<SUser> UpdateUser(UserDTO user,AddressDTO address)
         {
-           return _repository.UpdateUser(user); 
+            address.City = user.City;
+            address.Country = user.Country;
+            address.State = user.State;
+            address.ZipCode = user.ZipCode;
+            address.UserId = user.UserId;
+
+           return _repository.UpdateUser(user,address); 
         }
 
         public async Task<bool> Validate(LoginDTO login)

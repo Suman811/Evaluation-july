@@ -128,67 +128,101 @@ namespace UserManagement.Repository.UserRepository
         }
 
 
+
         public async Task<List<SUser>> GetAllUsers()
         {
 
             //return await _context.SUsers.ToListAsync();
-            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+
+            //await connection.OpenAsync();
+            //var command = connection.CreateCommand();
+            // SqlCommand command = new SqlCommand(query, connection);
+            // using (command = new SqlCommand("SELECT * FROM S_USER u INNER JOIN S_ADDRESS a ON u.UserId = a.UserId", connection)) ;
+            //string query = "SELECT * FROM SUsers WHERE IsDeleted = 0";
+            //return await _context.SUsers()
+            //connection.Open();
+            //SqlCommand command = new SqlCommand(query, connection);
+            //var users = _context.SUsers.Where(u => u.IsDeleted == 0).ToListAsync();
+            var collection = _context.SUsers.Include(o => o.SAddresses).Select(o => new SUser
             {
-                //await connection.OpenAsync();
-                //var command = connection.CreateCommand();
-               // SqlCommand command = new SqlCommand(query, connection);
-               // using (command = new SqlCommand("SELECT * FROM S_USER u INNER JOIN S_ADDRESS a ON u.UserId = a.UserId", connection)) ;
-                //string query = "SELECT * FROM SUsers WHERE IsDeleted = 0";
-                //return await _context.SUsers()
-                //connection.Open();
-                //SqlCommand command = new SqlCommand(query, connection);
-                //var users = _context.SUsers.Where(u => u.IsDeleted == 0).ToListAsync();
-                var collection = _context.SUsers.Include(o => o.SAddresses).Select(o => new SUser
+                UserId = o.UserId,
+                FirstName = o.FirstName,
+                MiddleName = o.MiddleName,
+                LastName = o.LastName,
+                Email = EncryptionDecryptionHandler.Decryption(o.Email),
+
+                Gender = o.Gender,
+                Phone = EncryptionDecryptionHandler.Decryption(o.Phone),
+                AlternatePhone = EncryptionDecryptionHandler.Decryption(o.AlternatePhone),
+                DateOfJoining = o.DateOfJoining,
+                DateOfBirth = o.DateOfBirth,
+                IsActive = o.IsActive,
+                ImagePath = o.ImagePath,
+                Password = EncryptionDecryptionHandler.Decryption(o.Password),
+
+                SAddresses = o.SAddresses.Select(a => new SAddress
                 {
-                    UserId = o.UserId,
-                    FirstName = o.FirstName,
-                    MiddleName = o.MiddleName,
-                    LastName = o.LastName,
-                    Email =EncryptionDecryptionHandler.Decryption(o.Email),
-                    Gender = o.Gender,
-                    Phone = EncryptionDecryptionHandler.Decryption(o.Phone),
-                    AlternatePhone = EncryptionDecryptionHandler.Decryption(o.AlternatePhone),
-                    DateOfJoining = o.DateOfJoining,
-                    DateOfBirth = o.DateOfBirth,
-                    IsActive = o.IsActive,
-                    ImagePath = o.ImagePath,
-                   
-                    SAddresses = o.SAddresses.Select(a => new SAddress
-                    {
-                        AddressId = a.AddressId,
-                        Country = a.Country,
-                        State = a.State,
-                        City = a.City,
-                        ZipCode = a.ZipCode,
-                    }).ToList()
-                });
-                return await collection.ToListAsync();
-            }
+                    AddressId = a.AddressId,
+                    Country = a.Country,
+                    State = a.State,
+                    City = a.City,
+                    ZipCode = a.ZipCode,
+                }).ToList()
+            });
+
+
+           
+
+            return await collection.ToListAsync();
+            
            
         }
 
-        public async Task<SUser> GetUserByID(int id)
-        {
-            return await _context.SUsers.FindAsync(id);
-        }
+        //public async Task<SUser> GetUserByID(int id)
+        //{
+        //    return await _context.SUsers.FindAsync(id);
+        //}
 
-        public async Task<SUser> UpdateUser(SUser user)
+        public async Task<SUser> UpdateUser(UserDTO user, AddressDTO address )
         {
-            _context.Entry(user).State=EntityState.Modified;
+            //_context.Entry(user).State=EntityState.Modified;
+            //await _context.SaveChangesAsync();
+            //return user;
+            //var existingAddress = await _context.SAddresses.FindAsync(user.UserId);
+            var existingUser = await _context.SUsers.FindAsync(user.UserId);
+            if (existingUser == null)
+            {
+                throw new KeyNotFoundException($"User with ID {user.UserId} not found.");
+            }
+
+
+            var existingAddress = await _context.SAddresses.FindAsync(address.UserId);
+            if (existingAddress == null)
+            {
+                throw new KeyNotFoundException($"Address for User ID {address.UserId} not found.");
+            }
+
+            existingAddress.City = address.City; // Assuming SAddress has a City property
+            existingAddress.State = address.State; // Assuming SAddress has a State property
+            existingAddress.ZipCode = address.ZipCode; // Assuming SAddress has a ZipCode property
+
+            // Mark the entities as modified
+            _context.Entry(existingUser).State = EntityState.Modified;
+            _context.Entry(existingAddress).State = EntityState.Modified;
+
             await _context.SaveChangesAsync();
-            return user;
+
+            return existingUser;
+            
         }
 
         public async Task<bool> Validate(LoginDTO login)
         {
+    //        var users = _context.SUsers
+    //.AsEnumerable()
+    //.Any(s => EncryptionDecryptionHandler.Decryption(s.Email) == login.Email && EncryptionDecryptionHandler.Decryption(s.Password) == login.Password && s.IsActive == true);
 
-
-            bool exists = await _context.SUsers.AnyAsync(u => u.Email == login.Email && u.Password == login.Password && u.IsActive == true);
+            bool exists = await _context.SUsers.AnyAsync(u => EncryptionDecryptionHandler.Decryption(u.Email) == login.Email && EncryptionDecryptionHandler.Decryption(u.Password) == login.Password && u.IsActive == true);
             return exists;
 
         }

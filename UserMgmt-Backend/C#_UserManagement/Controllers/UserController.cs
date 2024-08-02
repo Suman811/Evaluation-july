@@ -34,17 +34,17 @@ namespace UserManagement.Controllers
             }
         }
         [HttpPost("AddUser")]
-        public async Task<string> AddUser([FromBody]UserDTO user)
+        public async Task<string> AddUser([FromForm]UserDTO user)
         {
             var result = await _userService.AddUser(user);
             return result;
 
         }
-        [HttpPut("UpdateUser")]
-        public async Task<IActionResult> UpdateUser(SUser user)
+        [HttpPost("UpdateUser")]
+        public async Task<IActionResult> UpdateUser(UserDTO user)
         {
-            var result= await _userService.UpdateUser(user);
-            return Ok(result);
+            /*  var result= await _userService.UpdateUser(user);*/
+            return Ok(false);
         }
         [HttpDelete("DeleteUser")]
         public async Task<IActionResult> DeleteUser(int id)

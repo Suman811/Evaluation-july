@@ -16,7 +16,7 @@ namespace UserManagement.Shared.CommonService
 
         private const string CharPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%";
 
-        public static string GenerateUniquePassword(int length = 9)
+        public static string GenerateUniquePassword(int length = 5)
         {
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             StringBuilder pass = new StringBuilder();

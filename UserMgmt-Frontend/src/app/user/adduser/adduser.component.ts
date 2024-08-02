@@ -7,7 +7,7 @@ import { Country, State, City } from 'country-state-city';
 import { CrudserviceService } from '../services/crudservice.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -49,6 +49,8 @@ export class AdduserComponent implements OnInit {
   //   return (this.userForm.get('Addresses') as FormArray).at(i).get(controlName);
   // }
   ngOnInit(): void {
+
+    
     this.countryList = Country.getAllCountries();
     this.userForm = new FormGroup({
       
@@ -73,7 +75,6 @@ export class AdduserComponent implements OnInit {
       //isActive: new FormControl(false)
     });
   }
-
 
   // createAddressGroup(addressTypeId: number): FormGroup {
   //   return new FormGroup({
@@ -132,68 +133,57 @@ export class AdduserComponent implements OnInit {
     }
   }
   onSubmit() {
-    const formData = new FormData();
+    if (this.userForm.valid) {
+      const formData = new FormData();
+  
+      formData.append('userId', '0');
+      formData.append('firstName', this.userForm.get('firstName').value);
+      formData.append('middleName', this.userForm.get('middleName').value);
+      formData.append('lastName', this.userForm.get('lastName').value);
+      formData.append('gender', this.userForm.get('gender').value);
+      formData.append('dateOfBirth', this.userForm.get('dateOfBirth').value);
+      formData.append('email', this.userForm.get('email').value);
+      formData.append('dateOfJoining', this.userForm.get('dateOfJoining').value);
+      formData.append('phone', this.userForm.get('phone').value);
+      formData.append('alternatePhone', this.userForm.get('alternatePhone').value);
+      formData.append('imagePath', this.selectedImg.name);
+      
+      formData.append('address', '123 Lane'); // You need to provide the actual address value
+      formData.append('city', this.userForm.get('city').value);
+      formData.append('state', this.userForm.get('state').value);
+      formData.append('country', this.userForm.get('country').value);
+      formData.append('zipCode', this.userForm.get('zipCode').value);
+  
+      console.log(formData);
+  
+      const headers = new HttpHeaders({
+        'Content-Type': 'multipart/form-data'
+      });
+      this.serve.addUser(formData, { headers: headers }).subscribe({
+        next: (response) => {
+          if (response.success) {
+            // this.toastr.success(response.message, 'Successfully!');
+            alert("hello")
+          }
+          else {
+            this.toastr.error(response.message, 'Error!');
+            alert("thiik kr")
 
-    console.log(this.userForm.value);
-
-    formData.append('firstName', this.userForm.get('firstName').value);
-    formData.append('middleName', this.userForm.get('middleName').value);
-    formData.append('lastName', this.userForm.get('lastName').value);
-    formData.append('gender', this.userForm.get('gender').value);
-    formData.append('dateOfBirth', this.userForm.get('dateOfBirth').value);
-    formData.append('email', this.userForm.get('email').value);
-    formData.append('dateOfJoining', this.userForm.get('dateOfJoining').value);
-    formData.append('phone', this.userForm.get('phone').value);
-    formData.append('alternatePhone', this.userForm.get('alternatePhone').value);
-    formData.append('country', this.userForm.get('country').value);
-    formData.append('state', this.userForm.get('state').value);
-    formData.append('city', this.userForm.get('city').value);
-    formData.append('zipcode', this.userForm.get('zipcode').value);
-
-    //formData.append('isActive', this.userForm.get('isActive').value);
-
-    // this.Addresses.controls.forEach((control, index) => {
-    //   const addressGroup = control as FormGroup;
-    //   const addressPrefix = `Addresses[${index}]`;
-    //   formData.append(`${addressPrefix}.addressTypeId`, addressGroup.get('addressTypeId')?.value);
-    //   formData.append(`${addressPrefix}.country`, addressGroup.get('country')?.value);
-    //   formData.append(`${addressPrefix}.state`, addressGroup.get('state')?.value);
-    //   formData.append(`${addressPrefix}.city`, addressGroup.get('city')?.value);
-    //   formData.append(`${addressPrefix}.zipCode`, addressGroup.get('zipCode')?.value);
-    // });
-
-    formData.append('ImagePath', this.selectedImg);
-
-
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
-
-    console.log("FormData",formData)
-
-    console.log(this.userForm.value);
-    debugger
-    this.serve.addUser(formData).subscribe({
-
-      next: (response) => {
-        if (response.success) {
-          this.toastr.success(response.message, 'Successfully!');
+          }
+        },
+        error: (err) => {
+          if (err.error && err.error.message) {
+            this.toastr.error(err.error.message, 'Error!');
+          }
+          else {
+            this.toastr.error('Something went wrong', 'Error!');
+          }
         }
-        else {
-          this.toastr.error(response.message, 'Error!');
-        }
-      },
-
-      error: (err) => {
-        if (err.error && err.error.message) {
-          this.toastr.error(err.error.message, 'Error!');
-        }
-        else {
-          this.toastr.error('Something went wrong', 'Error!');
-        }
-      }
-    })
-
+      })
+    }
+    else {
+      this.toastr.error('Please fill in all required fields', 'Error!');
+    }
   }
 }
 

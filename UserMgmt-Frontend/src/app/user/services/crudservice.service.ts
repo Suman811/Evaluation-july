@@ -17,20 +17,16 @@ export class CrudserviceService {
   //   })
   // };
 
-  private apiUrl = 'https://localhost:7066/api/User';
-
+  private apiUrl = ' https://localhost:7066/api/User';
+//  /AddUser
 
   getRecordPerPage(currentPage : number, itemsPerPage : number) : Observable<any>{
     return this.http.get<any[]>(`${this.apiUrl}/GetRecords?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`);
   }
 
 
-  addUser(userDetails : any) : Observable<any>{
-    
-    return this.http.post<any>('https://localhost:7066/api/User/AddUser', userDetails,{headers: {
-      'Bearer': 'Access Token',
-      'Content-Type': 'application/json'
-    },});
+  addUser(userDetails: any, p0: { headers: HttpHeaders; }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/AddUser`, userDetails);
   }
 
 
@@ -42,5 +38,9 @@ export class CrudserviceService {
   }
   updateUser():Observable<any>{
     return this.http.delete<any>('https://localhost:7066/api/User/UpdateUser');
+    
+  }
+  validate(data:any):Observable<any>{
+    return this.http.post<any>('https://localhost:7066/api/User/ValidateUser',data);
   }
 }

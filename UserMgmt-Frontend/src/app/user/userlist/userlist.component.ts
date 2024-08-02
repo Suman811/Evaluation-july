@@ -8,9 +8,14 @@ import { CrudserviceService } from '../services/crudservice.service';
   styleUrls: ['./userlist.component.scss']
 })
 export class UserlistComponent implements OnInit {
+  p1:any;
+  active : any;
+  inActive : any;
+
   editItem() {
     throw new Error('Method not implemented.');
   }
+
   deleteItem() {
     throw new Error('Method not implemented.');
   }
@@ -24,6 +29,13 @@ export class UserlistComponent implements OnInit {
       {
         next: (res: any) => {
             this.userDetails = res;
+            let allUserData = res;
+
+            let activeUser = allUserData.filter((data : any) => data.isActive);
+            this.active = activeUser.length;
+            
+            this.inActive = allUserData.length - this.active;
+
             console.log(this.userDetails);
             let active = this.userDetails.filter((user: any) => user.isActive);
             let inActive = this.userDetails.filter((user: any) => !user.isActive);

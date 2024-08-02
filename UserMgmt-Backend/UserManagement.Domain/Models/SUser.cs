@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace UserManagement.Domain.Models;
 
@@ -45,6 +46,6 @@ public partial class SUser
     public int? DeletedBy { get; set; }
 
     public DateTime? DeletedDate { get; set; }
-
-    public virtual ICollection<SAddress> SAddresses { get; set; } = new List<SAddress>();
+   /* [JsonIgnore]*/
+    public virtual ICollection<SAddress> SAddresses { get; set; }
 }
