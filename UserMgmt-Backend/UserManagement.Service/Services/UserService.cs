@@ -82,7 +82,9 @@ namespace UserManagement.Service.Services
             address.ZipCode = user.ZipCode;
             address.UserId = user.UserId;
 
-           return _repository.UpdateUser(user,address); 
+           return _repository.UpdateUser(user,address);
+
+
         }
 
         public async Task<bool> Validate(LoginDTO login)

@@ -1,7 +1,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 
 
@@ -9,6 +9,13 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class CrudserviceService {
+private userDetailSubject = new BehaviorSubject<any>(null);
+ currentUserDetail= this.userDetailSubject.asObservable();
+
+
+  changeUserDetail(userDetail: any) {
+    this.userDetailSubject.next(userDetail);
+  } 
 
   constructor(private http : HttpClient) { }
   // const httpOptions = {
@@ -30,17 +37,26 @@ export class CrudserviceService {
   }
 
 
-  deleteUser(id : number) : Observable<any>{
-    return this.http.delete<any>('https://localhost:7066/api/User/DeleteUser?id=');
+  deleteUser(id: number) : Observable<any>{
+    return this.http.delete<any>(`https://localhost:7066/api/User/DeleteUser?id=${id}`);
   }
   getAllUsers(): Observable<any> {
     return this.http.get<any>('https://localhost:7066/api/User/GetAllUsers');
   }
-  updateUser():Observable<any>{
-    return this.http.delete<any>('https://localhost:7066/api/User/UpdateUser');
+  updateUser(userDetails:any,userId:any):Observable<any>{
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'multipart/form-data'
+    // });
+    // return this.http.post<any>(`https://localhost:7066/api/User/UpdateUser/${userId}`,userDetails,{headers:headers});
+    return this.http.post<any>(`https://localhost:7066/api/User/UpdateUser/${userId}`,userDetails);
+
     
   }
   validate(data:any):Observable<any>{
     return this.http.post<any>('https://localhost:7066/api/User/ValidateUser',data);
+  }
+
+  sendEmail(data : any) : Observable<any> {
+    return this.http.post<any>('https://localhost:7066/api/User/SendEmail/'+data,data);
   }
 }

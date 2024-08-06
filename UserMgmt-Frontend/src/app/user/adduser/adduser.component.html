@@ -19,7 +19,7 @@
 
 
             <div class="add-user-form-wrapper">
-                <form class="add-user-form" [formGroup]="userForm" (submit)="onSubmit()">
+                <form class="add-user-form" [formGroup]="userForm">
                     <div class="form-heading-wrapper">
                         <p>User Detail</p>
                     </div>
@@ -254,7 +254,7 @@
 
 
                     <div class="submit-btn-wrapper">
-                        <button>Save</button>
+                        <button (click)="isUpdate ? onUpdate() : onSubmit()">{{isUpdate ? 'Update' : 'Save'}}</button>
                     </div>
 
                 </form>

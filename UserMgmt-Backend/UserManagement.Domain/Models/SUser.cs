@@ -46,6 +46,6 @@ public partial class SUser
     public int? DeletedBy { get; set; }
 
     public DateTime? DeletedDate { get; set; }
-   /* [JsonIgnore]*/
+/*    [JsonIgnore]*/
     public virtual ICollection<SAddress> SAddresses { get; set; }
 }

@@ -15,17 +15,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule} from '@angular/material/menu';
 import { SharedModule } from '../shared/shared.module';
-import { ToastrModule } from 'ngx-toastr';
+import {  ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDividerModule } from '@angular/material/divider';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ResetComponent } from './reset/reset.component';
+
+
 @NgModule({
   declarations: [
     SignComponent,
     ForgotpasswordComponent,
     MailsentComponent,
     UserlistComponent,
-    AdduserComponent
+    AdduserComponent,
+    ResetComponent
   ],
   imports: [
     CommonModule,
@@ -47,6 +51,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MatToolbarModule,
     MatSidenavModule,
     NgxPaginationModule
+  ],
+  providers:[
+    
   ]
 })
 export class UserModule { }

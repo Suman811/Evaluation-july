@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { CrudserviceService } from '../services/crudservice.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-userlist',
@@ -11,19 +13,44 @@ export class UserlistComponent implements OnInit {
   p1:any;
   active : any;
   inActive : any;
+  // editItem(a:any) {
+  //   this.serve.updateUser(a).subscribe({
+  //     next:(data:any)=>{
+  //       this.t.success("User updated successfully");
+  //     }
+  //   })
+  // }
 
-  editItem() {
-    throw new Error('Method not implemented.');
+
+
+  editItem(userDetail : any) {
+    userDetail.Address = `${userDetail.city}, ${userDetail.state}, ${userDetail.country}, ${userDetail.zipCode}`; // Dynamic address
+    console.log(userDetail);
+    
+    this.serve.changeUserDetail(userDetail);
+    this.route.navigate(['add']);
   }
 
-  deleteItem() {
-    throw new Error('Method not implemented.');
+  deleteItem(id:number) {
+    this.serve.deleteUser(id).subscribe({
+      next:(data:any)=>{
+        this.t.success(data.res);
+      },
+      error : (err) => {
+        if(err.error && err.error.message){
+          this.t.error(err.error.message);
+        }
+        else{
+          this.t.error('Something went wrong');
+        }
+      }
+    });
   }
 
   ngOnInit(): void {
     this.getUserDetails();
   }
-  constructor(private serve: CrudserviceService) { }
+  constructor(private serve: CrudserviceService, private t : ToastrService, private route:Router) { }
   getUserDetails() {
     this.subscription = this.serve.getAllUsers().subscribe(
       {

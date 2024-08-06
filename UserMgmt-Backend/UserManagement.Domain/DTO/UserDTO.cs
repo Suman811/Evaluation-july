@@ -46,7 +46,7 @@ namespace UserManagement.Domain.DTO
 
         public string ZipCode { get; set; } = null!;
         //public virtual ICollection<SAddress> SAddresses { get; set; } 
-      /*  public bool IsActive { get; set; }*/
+        /*  public bool IsActive { get; set; }*/
 
 
     }

@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
+import { SumandeepComponent } from './sumandeep/sumandeep.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SumandeepComponent
   ],
   imports: [
     BrowserModule,

@@ -21,7 +21,8 @@ namespace UserManagement
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<TestContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddTransient<IUserService, UserService>();
             builder.Services.AddTransient<IUserRepository, UserRepository>();
@@ -67,6 +68,7 @@ namespace UserManagement
             app.UseAuthentication();
             app.UseAuthorization();
 
+            
             app.MapControllers();
             app.Run();
         }

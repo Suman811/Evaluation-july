@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { CrudserviceService } from '../services/crudservice.service';
+import { ToastrService } from 'ngx-toastr';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-forgotpassword',
@@ -9,9 +12,16 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class ForgotpasswordComponent {
 
 
-  constructor(private fb:FormBuilder){}
+  constructor(private fb:FormBuilder, private crudService : CrudserviceService, private toaster : ToastrService,private route:Router){}
 
-
+mail(){
+  this.crudService.sendEmail(this.forgotform.value.email).subscribe({
+    next : (res) => {
+      this.toaster.success('Success',"Email send successfully");
+      this.route.navigate(["/mail"]);
+    }
+  })
+}
 
   forgotform = this.fb.group({
     email: ['', [Validators.email, Validators.required]],

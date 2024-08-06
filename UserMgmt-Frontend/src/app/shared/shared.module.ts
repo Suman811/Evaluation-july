@@ -5,6 +5,8 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { UserRoutingModule } from '../user/user-routing.module';
 import { HeaderComponent } from './header/header.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -15,6 +17,8 @@ import { HeaderComponent } from './header/header.component';
   imports: [
     CommonModule,
     SharedRoutingModule,
+    MatMenuModule,
+    MatIconModule,
     UserRoutingModule  ],
     exports : [
       SidebarComponent,

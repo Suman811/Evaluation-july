@@ -40,17 +40,32 @@ namespace UserManagement.Controllers
             return result;
 
         }
-        [HttpPost("UpdateUser")]
-        public async Task<IActionResult> UpdateUser(UserDTO user)
+        [HttpPost("UpdateUser/{userId}")]
+        public async Task<IActionResult> UpdateUser([FromForm]UserDTO user)
         {
-            /*  var result= await _userService.UpdateUser(user);*/
-            return Ok(false);
+            user.UserId = user.UserId;
+            AddressDTO address = new AddressDTO();
+            address.City = user.City;
+            address.Country = user.Country;
+            address.State = user.State;
+            address.ZipCode = user.ZipCode;
+            address.UserId = user.UserId;
+            var result= await _userService.UpdateUser(user,address);
+            if (result != null)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
         }
         [HttpDelete("DeleteUser")]
         public async Task<IActionResult> DeleteUser(int id)
         {
            var result = await _userService.DeleteUser(id);
-            return Ok(result);
+            return Ok(new {res = result});
+            //return Ok(result);
         }
         [HttpPost("ValidateUser")]
         public async Task<IActionResult> Validate([FromBody] LoginDTO login)
@@ -59,20 +74,17 @@ namespace UserManagement.Controllers
             var result = await _userService.Validate(login);
             if (result == false)
             {
-                return Unauthorized();
+                return BadRequest(new { message = "Invalid username or password" });
             }
-
 
             JWTService t = new JWTService(_config);
 
             var token = t.GenerateToken(login);
 
-            return Ok();
+            return Ok(new {token = token});
         }
 
-
-
-        [HttpPost("SendEmail")]
+        [HttpPost("SendEmail/{email}")]
         public Task SendEmail(string email)
         {
             return _emailService.SendEmail(email);

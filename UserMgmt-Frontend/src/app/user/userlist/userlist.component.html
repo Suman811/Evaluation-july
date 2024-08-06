@@ -66,10 +66,10 @@
           <div class="user-heading-wrapper">
             <p>User List</p>
           </div>
-  
+  <button class= "btn btn-success" (click)="exportToExcel()">Export to Excel</button>
           <div class="user-list-table-wrapper">
             <div class="table-responsive">
-              <table>
+              <table id="tbldata">
                 <thead>
                   <tr>
                     <th class="shift">First Name</th>
@@ -89,7 +89,7 @@
                     <td>{{a.firstName}}</td>
                     <td>{{a.middleName}}</td>
                     <td>{{a.lastName}}</td> 
-                    <td>{{a.dateOfBirth}}</td>
+                    <td>{{a.dateOfBirth | date}}</td>
                     <td>{{a.email}}</td>
                     <td>{{a.phone}}</td>
                     <ng-container >
@@ -101,8 +101,8 @@
                     <td>{{a.state}}</td>
                     <td>{{a.country}}</td> -->
                     <td>
-                      <i class="fas fa-edit" (click)="editItem()"></i>
-                      <i class="fas fa-trash-alt" (click)="deleteItem()"></i>
+                      <i class="fas fa-edit" (click)="editItem(a)"></i>
+                      <i class="fas fa-trash-alt" (click)="deleteItem(a.userId)"></i>
                     </td>
                   </tr>
                 </tbody>

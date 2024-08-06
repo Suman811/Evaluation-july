@@ -15,7 +15,7 @@ namespace UserManagement.Service.Services
         {
             var subj = "Change Your Passsword";
             var body = "Click link below to change password " +
-            "http://localhost:4200/forgot_password";
+            "http://localhost:4200/reset";
             return SendEmailAsync(email, subj, body);
 
         }

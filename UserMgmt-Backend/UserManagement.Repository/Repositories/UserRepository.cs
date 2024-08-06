@@ -189,21 +189,37 @@ namespace UserManagement.Repository.UserRepository
             //await _context.SaveChangesAsync();
             //return user;
             //var existingAddress = await _context.SAddresses.FindAsync(user.UserId);
+
             var existingUser = await _context.SUsers.FindAsync(user.UserId);
             if (existingUser == null)
             {
+
+
                 throw new KeyNotFoundException($"User with ID {user.UserId} not found.");
             }
+            existingUser.FirstName = user.FirstName;
+            existingUser.LastName = user.LastName;
+            existingUser.MiddleName = user.MiddleName;
+            existingUser.DateOfBirth = user.DateOfBirth;
+            existingUser.DateOfJoining = user.DateOfJoining;
+            existingUser.Gender = user.Gender;
+            existingUser.ImagePath = user.ImagePath;
+           
+            existingUser.Phone = EncryptionDecryptionHandler.Encryption(user.Phone);
+            existingUser.AlternatePhone = EncryptionDecryptionHandler.Encryption(user.AlternatePhone);
 
 
-            var existingAddress = await _context.SAddresses.FindAsync(address.UserId);
+
+            //var existingAddress = await _context.SAddresses.FindAsync(address.UserId);
+            var existingAddress = await _context.SAddresses.FirstOrDefaultAsync(x=>x.UserId == address.UserId);
             if (existingAddress == null)
             {
                 throw new KeyNotFoundException($"Address for User ID {address.UserId} not found.");
             }
-
+            
             existingAddress.City = address.City; // Assuming SAddress has a City property
             existingAddress.State = address.State; // Assuming SAddress has a State property
+            existingAddress.Country = address.Country;
             existingAddress.ZipCode = address.ZipCode; // Assuming SAddress has a ZipCode property
 
             // Mark the entities as modified
@@ -218,11 +234,12 @@ namespace UserManagement.Repository.UserRepository
 
         public async Task<bool> Validate(LoginDTO login)
         {
-    //        var users = _context.SUsers
-    //.AsEnumerable()
-    //.Any(s => EncryptionDecryptionHandler.Decryption(s.Email) == login.Email && EncryptionDecryptionHandler.Decryption(s.Password) == login.Password && s.IsActive == true);
+            //        var users = _context.SUsers
+            //.AsEnumerable()
+            //.Any(s => EncryptionDecryptionHandler.Decryption(s.Email) == login.Email && EncryptionDecryptionHandler.Decryption(s.Password) == login.Password && s.IsActive == true);
+            bool exists = await _context.SUsers.AnyAsync(u => u.Email == EncryptionDecryptionHandler.Encryption(login.Email) && u.Password == EncryptionDecryptionHandler.Encryption(login.Password) && u.IsActive==true);
 
-            bool exists = await _context.SUsers.AnyAsync(u => EncryptionDecryptionHandler.Decryption(u.Email) == login.Email && EncryptionDecryptionHandler.Decryption(u.Password) == login.Password && u.IsActive == true);
+            //bool exists = await _context.SUsers.AnyAsync(u => EncryptionDecryptionHandler.Decryption(u.Email) == login.Email && EncryptionDecryptionHandler.Decryption(u.Password) == login.Password && u.IsActive == true);
             return exists;
 
         }

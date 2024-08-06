@@ -325,4 +325,5 @@ alter table S_ADDRESS
 DROP column ModifiedDate;
 alter table S_ADDRESS
 DROP column DeletedDate;
-delete from s_user where UserId=27;
+delete from s_user where UserId=26;
+
