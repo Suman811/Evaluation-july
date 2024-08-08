@@ -6,17 +6,20 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
-import { SumandeepComponent } from './sumandeep/sumandeep.component';
+import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { LoaderComponent } from './user/loader/loader.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SumandeepComponent
+    LoaderComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatProgressSpinnerModule,
     HttpClientModule,
     ToastrModule.forRoot({
       timeOut:2000,

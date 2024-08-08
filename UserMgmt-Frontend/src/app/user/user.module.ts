@@ -20,7 +20,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDividerModule } from '@angular/material/divider';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ResetComponent } from './reset/reset.component';
-
+import { LoaderComponent } from './loader/loader.component';
+import { from } from 'rxjs';
+import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,7 @@ import { ResetComponent } from './reset/reset.component';
     MailsentComponent,
     UserlistComponent,
     AdduserComponent,
-    ResetComponent
+    ResetComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +52,9 @@ import { ResetComponent } from './reset/reset.component';
     MatMenuModule,
     MatToolbarModule,
     MatSidenavModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatProgressSpinnerModule
+  
   ],
   providers:[
     

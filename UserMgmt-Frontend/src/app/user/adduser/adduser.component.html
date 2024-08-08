@@ -128,14 +128,32 @@
                         <div class="form-input col-md-4 col-12">
                             <label for="country">Country</label>
                             <input type="text" id="country" name="country" placeholder="Country" formControlName="country">
+                            <div *ngIf="getControl('country')?.errors && getControl('country')?.touched || getControl('country')?.dirty">
+                                <small class="text-danger" *ngIf="getControl('country')?.errors?.['required']">Country
+                                    
+                                    is required.</small>
+                                
+                            </div>
                         </div>
                         <div class="form-input col-md-4 col-12">
                             <label for="state">State</label>
                             <input type="text" id="state" name="state" placeholder="Enter State" formControlName="state">
+                            <div *ngIf="getControl('state')?.errors && getControl('state')?.touched || getControl('state')?.dirty">
+                                <small class="text-danger" *ngIf="getControl('state')?.errors?.['required']">State
+                                    
+                                    is required.</small>
+                                
+                            </div>
                         </div> 
                         <div class="form-input col-md-4 col-12">
                             <label for="city">City</label>
                             <input type="text" id="city" name="city" placeholder="Enter City" formControlName="city">
+                            <div *ngIf="getControl('city')?.errors && getControl('city')?.touched || getControl('city')?.dirty">
+                                <small class="text-danger" *ngIf="getControl('city')?.errors?.['required']">State
+                                    
+                                    is required.</small>
+                                
+                            </div>
                         </div> 
                         <div class="form-input col-md-4 col-12">
                             <label for="zipcode">Zip Code</label>

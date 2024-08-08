@@ -16,6 +16,8 @@ namespace UserManagement.IRepository.RepositoryInterface
         //Task<SUser> GetUserByID(int id);
         Task<List<SUser>> GetAllUsers();
         Task<bool> Validate(LoginDTO login);
+        //Task <bool> ForgotPassword(ForgotPasswordDTO forgotPasswordDTO);
+       // Task <bool>GetByEmail(string email);
 
     }
 }

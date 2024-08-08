@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { CrudserviceService } from '../services/crudservice.service';
 import { Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderserviceService } from '../loader/loaderservice.service';
 
 @Component({
   selector: 'app-sign',
@@ -11,7 +12,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SignComponent {
 
-  constructor(private fb: FormBuilder, private serve: CrudserviceService, private route: Router, private toastr: ToastrService) { }
+  constructor(private fb: FormBuilder, 
+    private loaderService: LoaderserviceService,
+    private serve: CrudserviceService, private route: Router, private toastr: ToastrService) { }
 
   loginform = this.fb.group({
     email: ['', [Validators.email, Validators.required]],
@@ -26,6 +29,7 @@ export class SignComponent {
     return this.loginform.get(a);
   }
   saveForm() {
+    this.loaderService.showLoader();
     if (this.loginform.valid) {
       console.log(this.loginform.value);
       this.serve.validate(this.loginform.value).subscribe({
@@ -33,6 +37,7 @@ export class SignComponent {
           console.log(data);
           if (data.token) {
             localStorage.setItem("token", JSON.stringify(data.token));
+            this.loaderService.hideLoader();
             this.toastr.success("success");
             setTimeout(() => {
               this.route.navigate(['list']);

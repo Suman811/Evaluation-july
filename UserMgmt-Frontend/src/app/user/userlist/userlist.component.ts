@@ -35,10 +35,12 @@ export class UserlistComponent implements OnInit {
     this.serve.deleteUser(id).subscribe({
       next:(data:any)=>{
         this.t.success(data.res);
+        this.getUserDetails();
       },
       error : (err) => {
         if(err.error && err.error.message){
           this.t.error(err.error.message);
+         
         }
         else{
           this.t.error('Something went wrong');
@@ -51,28 +53,75 @@ export class UserlistComponent implements OnInit {
     this.getUserDetails();
   }
   constructor(private serve: CrudserviceService, private t : ToastrService, private route:Router) { }
-  getUserDetails() {
-    this.subscription = this.serve.getAllUsers().subscribe(
-      {
-        next: (res: any) => {
-            this.userDetails = res;
-            let allUserData = res;
+ 
+  // getUserDetails() {
+  //   this.subscription = this.serve.getAllUsers().subscribe(
+  //     {
+  //       next: (res: any) => {
+  //           this.userDetails = res;
+  //           let allUserData = res;
 
-            let activeUser = allUserData.filter((data : any) => data.isActive);
-            this.active = activeUser.length;
+  //           let activeUser = allUserData.filter((data : any) => data.isActive);
+  //           this.active = activeUser.length;
             
-            this.inActive = allUserData.length - this.active;
+  //           this.inActive = allUserData.length - this.active;
 
-            console.log(this.userDetails);
-            let active = this.userDetails.filter((user: any) => user.isActive);
-            let inActive = this.userDetails.filter((user: any) => !user.isActive);
-            this.activeUser = active.length;
-            this.inActiveUser = inActive.length;
-        }
+  //           console.log(this.userDetails);
+  //           let active = this.userDetails.filter((user: any) => user.isActive);
+  //           let inActive = this.userDetails.filter((user: any) => !user.isActive);
+  //           this.activeUser = active.length;
+  //           this.inActiveUser = inActive.length;
+  //       }
+  //     }
+  //   );
+  // }
+
+//   getUserDetails() {
+//     debugger;
+//     this.subscription = this.serve.getAllUsers().subscribe({
+//         next: (res: any) => {
+//             this.userDetails = res;
+//             let allUserData = res;
+ 
+//             // Filter active and inactive users
+//             let activeUser = allUserData.filter((data: any) => data.isActive);
+//             //this.userData = activeUser;
+//             let inactiveUser = allUserData.filter((data: any) => !data.isActive);
+ 
+//             // Assign the count of active and inactive users
+//             this.active = activeUser.length;
+//             this.inActive = inactiveUser.length;
+ 
+//             // Log the user details
+//             console.log(this.userDetails);
+ 
+//             // Assign filtered users to respective variables
+//             this.activeUser = activeUser.length;
+//             this.inActiveUser = inactiveUser.length;
+//         }
+//     });
+// }
+getUserDetails() {
+  this.subscription = this.serve.getAllUsers().subscribe({
+      next: (res: any) => {
+          let allUserData = res;
+
+          // Filter active and inactive users
+          let activeUser = allUserData.filter((data: any) => data.isActive);
+          let inactiveUser = allUserData.filter((data: any) => !data.isActive);
+
+          // Assign the count of active and inactive users
+          this.active = activeUser.length;
+          this.inActive = inactiveUser.length;
+
+          // Log the user details
+          console.log(this.userDetails);
+
+          // Assign only active users to userDetails for display
+          this.userDetails = activeUser;
       }
-    );
-  }
-
+  });
+}
 
   exportToExcel() {
     let data = document.getElementById("tbldata");

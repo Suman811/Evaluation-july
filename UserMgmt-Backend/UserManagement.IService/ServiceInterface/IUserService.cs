@@ -16,5 +16,6 @@ namespace UserManagement.IService.ServiceInterface
        // Task<SUser> GetUserByID(int id);
         Task<List<SUser>> GetAllUsers();
         Task<bool> Validate(LoginDTO login);
+        //Task<bool> ForgotPassword(ForgotPasswordDTO forgotPassword);    
     }
 }

@@ -9,6 +9,7 @@ using UserManagement.Domain.Models;
 
 using UserManagement.IRepository.RepositoryInterface;
 using UserManagement.IService.ServiceInterface;
+using UserManagement.Repository.UserRepository;
 using UserManagement.Service.CommonService;
 using UserManagement.Shared.CommonService;
 
@@ -19,7 +20,7 @@ namespace UserManagement.Service.Services
         private readonly IUserRepository _repository;
         private readonly IConfiguration _config;
 
-        public UserService(IUserRepository repository, IConfiguration configuration) 
+        public UserService(IUserRepository repository, IConfiguration configuration)
         {
             _repository = repository;
             _config = configuration;
@@ -28,40 +29,40 @@ namespace UserManagement.Service.Services
         {
             var pass = GeneratePassword.GenerateUniquePassword();
             PasswordHashing passwordHashing = new PasswordHashing();
-            
-                SUser sUser = new SUser();
-                SAddress address = new SAddress();
 
-                sUser.FirstName = user.FirstName;
-                sUser.MiddleName = user.MiddleName;
-                sUser.LastName = user.LastName;
-                sUser.Email = EncryptionDecryptionHandler.Encryption(user.Email);
-                sUser.Gender = user.Gender;
-                sUser.DateOfJoining = user.DateOfJoining;
-                sUser.DateOfBirth  = user.DateOfBirth;
-                sUser.Phone = EncryptionDecryptionHandler.Encryption(user.Phone);
-                sUser.AlternatePhone = EncryptionDecryptionHandler.Encryption(user.AlternatePhone);
+            SUser sUser = new SUser();
+            SAddress address = new SAddress();
+
+            sUser.FirstName = user.FirstName;
+            sUser.MiddleName = user.MiddleName;
+            sUser.LastName = user.LastName;
+            sUser.Email = EncryptionDecryptionHandler.Encryption(user.Email);
+            sUser.Gender = user.Gender;
+            sUser.DateOfJoining = user.DateOfJoining;
+            sUser.DateOfBirth = user.DateOfBirth;
+            sUser.Phone = EncryptionDecryptionHandler.Encryption(user.Phone);
+            sUser.AlternatePhone = EncryptionDecryptionHandler.Encryption(user.AlternatePhone);
             // sUser.Password = passwordHashing.HashedPassword(pass);
-            sUser.Password=EncryptionDecryptionHandler.Encryption(GeneratePassword.GenerateUniquePassword());
-           
-                sUser.ImagePath = user.ImagePath;
-               // sUser.CreatedBy = user.LoginUserId;
-                address.Address = user.Address;
-                address.City = user.City;
-                address.Country = user.Country;
-                address.State = user.State;
-                address.ZipCode = user.ZipCode;
+            sUser.Password = EncryptionDecryptionHandler.Encryption(GeneratePassword.GenerateUniquePassword());
+
+            sUser.ImagePath = user.ImagePath;
+            // sUser.CreatedBy = user.LoginUserId;
+            address.Address = user.Address;
+            address.City = user.City;
+            address.Country = user.Country;
+            address.State = user.State;
+            address.ZipCode = user.ZipCode;
 
 
             return _repository.AddUser(sUser, address);
 
-            
-           
+
+
         }
 
         public Task<string> DeleteUser(int id)
         {
-           return _repository.DeleteUser(id);
+            return _repository.DeleteUser(id);
         }
 
         public async Task<List<SUser>> GetAllUsers()
@@ -74,7 +75,7 @@ namespace UserManagement.Service.Services
         //    return _repository.GetUserByID(id); 
         //}
 
-        public Task<SUser> UpdateUser(UserDTO user,AddressDTO address)
+        public Task<SUser> UpdateUser(UserDTO user, AddressDTO address)
         {
             address.City = user.City;
             address.Country = user.Country;
@@ -82,7 +83,7 @@ namespace UserManagement.Service.Services
             address.ZipCode = user.ZipCode;
             address.UserId = user.UserId;
 
-           return _repository.UpdateUser(user,address);
+            return _repository.UpdateUser(user, address);
 
 
         }
@@ -91,5 +92,15 @@ namespace UserManagement.Service.Services
         {
             return await _repository.Validate(login);
         }
+
+        //public async Task<bool> ForgotPassword(ForgotPasswordDTO forgotPasswordDto)
+        //{
+        //    var user = await _repository.GetByEmail(forgotPasswordDto.Email);
+        //    if (user == null)
+        //    {
+        //        return false;
+        //    }
+
+        //}
     }
 }

@@ -171,17 +171,18 @@ BEGIN
 
     BEGIN TRY
         -- Insert into S_USER table
+		if not exists(select 1  from s_user where email= @Email)
         INSERT INTO S_USER (FirstName, MiddleName, LastName, Gender, DateOfJoining, DOB, Email, [Password], Phone, AlternatePhone, ImagePath)
         VALUES (@FirstName, @MiddleName, @LastName, @Gender, @DateOfJoining, @DOB, @Email, @Password, @Phone, @AlternatePhone, @ImagePath);
-
+		
         SET @UserId = SCOPE_IDENTITY();
 
         -- Insert into S_ADDRESS table
-        INSERT INTO S_ADDRESS ([Address], City, [State], Country, ZipCode, UserId)
+          INSERT INTO S_ADDRESS ([Address], City, [State], Country, ZipCode, UserId)
         VALUES (@Address, @City, @State, @Country, @ZipCode, @UserId);  -- Assuming AddressTypeId is 1 for user's primary address
 
         SET @AddressId = SCOPE_IDENTITY();
-
+		end
         COMMIT TRANSACTION;
 
         SELECT @UserId AS UserId, @AddressId AS AddressId;
